@@ -6,7 +6,7 @@ edition = "2018"
 
 [dependencies]
 thiserror = "1.0"
-windows = "0.9.1"
+windows = "0.10"
 
 [build-dependencies]
-windows = "0.9.1"
+windows = "0.10"
