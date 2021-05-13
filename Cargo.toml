@@ -8,7 +8,7 @@ repository = "https://github.com/Johannesd3/win-dns-sd"
 readme = "README.md"
 edition = "2018"
 categories = ["network-programming", "os::windows-apis", "api-bindings", "asynchronous"]
-keywords = ["dns-sd", "mdns", "windows", "async", "dnssd", "zeroconf"]
+keywords = ["dns-sd", "mdns", "windows", "zeroconf"]
 
 [dependencies]
 thiserror = "1.0"
