@@ -12,6 +12,9 @@ use self::bindings::Windows::Networking::{
     Sockets::DatagramSocket,
 };
 
+/// Windows representation of a hostname.
+///
+/// `TryFrom<&str>` is currently the only way to create it.
 pub struct Hostname(WinHostName);
 
 impl TryFrom<&str> for Hostname {
@@ -51,6 +54,7 @@ enum ErrorInner {
     UnkownError,
 }
 
+/// Represents an error.
 #[derive(Debug, Error)]
 #[error(transparent)]
 pub struct Error(ErrorInner);
@@ -58,12 +62,12 @@ pub struct Error(ErrorInner);
 type ServiceInner = (DnssdServiceInstance, DatagramSocket);
 
 async fn register(
-    name: &str,
+    instance_name: &str,
     hostname: Option<WinHostName>,
     port: u16,
     txt: &[(&str, &str)],
 ) -> Result<ServiceInner, ErrorInner> {
-    let instance = DnssdServiceInstance::Create(name, hostname, port)?;
+    let instance = DnssdServiceInstance::Create(instance_name, hostname, port)?;
 
     let txt_map = instance.TextAttributes()?;
     for &(key, value) in txt {
@@ -87,16 +91,20 @@ async fn register(
     Ok((instance, socket))
 }
 
+/// A registered DNS-SD service.
 pub struct Service(ServiceInner);
 
 impl Service {
+    /// Registers a service.
+    ///
+    /// `instance_name` is usually something like `"instancename._http._tcp.local."`.
     pub async fn register(
-        name: &str,
+        instance_name: &str,
         hostname: Option<Hostname>,
         port: u16,
         txt: &[(&str, &str)],
     ) -> Result<Self, Error> {
-        register(name, hostname.map(|x| x.0), port, txt)
+        register(instance_name, hostname.map(|x| x.0), port, txt)
             .await
             .map(Service)
             .map_err(Error)
