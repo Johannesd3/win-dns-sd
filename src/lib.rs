@@ -25,6 +25,18 @@ impl TryFrom<&str> for Hostname {
     }
 }
 
+impl std::fmt::Debug for Hostname {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self.0)
+    }
+}
+
+impl std::fmt::Display for Hostname {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0.CanonicalName().unwrap())
+    }
+}
+
 #[derive(Debug, Error)]
 enum ErrorInner {
     #[error(transparent)]
