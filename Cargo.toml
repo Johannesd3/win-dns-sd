@@ -1,8 +1,14 @@
 [package]
 name = "win-dns-sd"
+description = "DNS service discovery using the native Windows 10 API"
 version = "0.1.0"
 authors = ["Johannesd3 <johannesd@outlook.com>"]
+license = "MIT"
+repository = "https://github.com/Johannesd3/win-dns-sd"
+readme = "README.md"
 edition = "2018"
+categories = ["network-programming", "os::windows-apis", "api-bindings", "asynchronous"]
+keywords = ["dns-sd", "mdns", "windows", "async", "dnssd", "zeroconf"]
 
 [dependencies]
 thiserror = "1.0"
